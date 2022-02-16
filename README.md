@@ -1,2 +1,2 @@
 # BachelorProefWristbands
-Finalcode repo voor Jonas Piscdaor en Robin Missiaen
+Finalcode repo voor Jonas Piscador en Robin Missiaen
