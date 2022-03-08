@@ -7,32 +7,33 @@
 #include <string.h>
 
 
-    BLEScan *pBLEScan;
+   
 
-//ADAPTABLE
-    BLECast bleCast("esp2");
+//ADAPTABLE ========================================================================================
+
+    BLECast bleCast("esp2");            //naam ESP
     const unsigned long period = 1000;  //the value is a number of milliseconds
 
-    int distance1;
-    int distance2;
-    int distance3;
-    int distance4;
+//ADADPTABLE =======================================================================================
+
+    BLEScan *pBLEScan;
+
+    int distance1;  //afstand tot ESP1
+    int distance2;  //afstand tot ESP2
+    int distance3;  //afstand tot ESP3
+    int distance4;  //afstand tot ESP4
 
     const int scanTimeSeconds = 1;
     uint8_t cnt = 0;
     char data[5];
     uint8_t mode;
 
-    unsigned long startMillis;  //some global variables available anywhere in the program
+    unsigned long startMillis;  
     unsigned long currentMillis;
     
-    const byte ledPin = 13;    //using the built in LED
-
 
     class AdvertisedDeviceCallbacks : public BLEAdvertisedDeviceCallbacks
     {
-        
-
         void tekstInResult(BLEAdvertisedDevice advertisedDevice){
                 
 
@@ -52,8 +53,7 @@
         }
 
         void onResult(BLEAdvertisedDevice advertisedDevice)
-        {       
-                
+        {             
         if (advertisedDevice.getName().compare("esp1") == 0 || 
         advertisedDevice.getName().compare("esp2") == 0 ||
         advertisedDevice.getName().compare("esp3") == 0 ||
@@ -79,9 +79,6 @@
     }
 
     void sendsetup(){
-        Serial.begin(115200);
-        Serial.println("Starting BLE Beacon");
-
         bleCast.begin();
     }
 
@@ -117,8 +114,9 @@
     {
         scansetup();
         sendsetup();
-        //mode = 1;
+    
         startMillis = millis();
+
         distance1 = 0;
         distance2 = 0;
         distance3 = 0;
@@ -128,29 +126,28 @@
     }
 
 
-
     void loop()
     {
         currentMillis = millis();
 
         if ((currentMillis-startMillis)<=period )
-            {scanloop();
-            }
+            {scanloop();}
         else
             {sendloop();
-            startMillis = currentMillis;
-            }
+            startMillis = currentMillis;}
 
 
         
         if(distance3> 50 || distance1 > 50 || distance2 >50 ||distance4 >50 ||
-        distance3 < (-50) || distance1 < (-50) || distance2 < (-50) ||distance4 < (-50)){
-            digitalWrite(4, 0);
-            
+        distance3 < (-50) || distance1 < (-50) || distance2 < (-50) ||distance4 < (-50))
+        {
+            digitalWrite(4, 0); 
         }
         else
-        {digitalWrite(4,1);
-        Serial.println(distance3);}
+        {
+            digitalWrite(4,1);
+            Serial.println(distance3);
+        }
             
    
     }
