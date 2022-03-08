@@ -13,6 +13,11 @@
     BLECast bleCast("esp4");
     const unsigned long period = 750;  //the value is a number of milliseconds
 
+    int distance1;
+    int distance2;
+    int distance3;
+    int distance4;
+
     const int scanTimeSeconds = 1;
     uint8_t cnt = 0;
     char data[5];
@@ -29,10 +34,21 @@
         
 
         void tekstInResult(BLEAdvertisedDevice advertisedDevice){
-                            Serial.print(advertisedDevice.getName().c_str());
-                Serial.printf(": %d \n", advertisedDevice.getRSSI());
-                Serial.printf(": %s \n", advertisedDevice.getManufacturerData().c_str());
-                mode ++;
+                
+
+                if(advertisedDevice.getName().c_str() == "esp1")
+                    {distance1 = advertisedDevice.getRSSI();}
+                if(advertisedDevice.getName().c_str() == "esp2")
+                    {distance2 = advertisedDevice.getRSSI();}
+                if(advertisedDevice.getName().c_str() == "esp3")
+                    {distance3 = advertisedDevice.getRSSI();}
+                if(advertisedDevice.getName().c_str() == "esp4")
+                    {distance4 = advertisedDevice.getRSSI();}
+
+                //Serial.print(advertisedDevice.getName().c_str());
+                //Serial.printf(": %d \n", advertisedDevice.getRSSI());
+                //Serial.printf(": %s \n", advertisedDevice.getManufacturerData().c_str());
+
         }
 
         void onResult(BLEAdvertisedDevice advertisedDevice)
@@ -103,6 +119,10 @@
         sendsetup();
         //mode = 1;
         startMillis = millis();
+        distance1 = 0;
+        distance2 = 0;
+        distance3 = 0;
+        distance4 = 0;
     }
 
 
@@ -118,4 +138,8 @@
             {sendloop();
             startMillis = currentMillis;
             }
+        Serial.println(distance1);
+        Serial.println(distance2);
+        Serial.println(distance3);
+        Serial.println(distance4);
     }
