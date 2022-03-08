@@ -8,7 +8,7 @@
 
 
     BLEScan *pBLEScan;
-    BLECast bleCast("esp3");
+    BLECast bleCast("esp1");
 
     const int scanTimeSeconds = 1;
     uint8_t cnt = 0;
