@@ -10,8 +10,8 @@
     BLEScan *pBLEScan;
 
 //ADAPTABLE
-    BLECast bleCast("esp4");
-    const unsigned long period = 750;  //the value is a number of milliseconds
+    BLECast bleCast("esp2");
+    const unsigned long period = 1000;  //the value is a number of milliseconds
 
     int distance1;
     int distance2;
@@ -45,9 +45,9 @@
                 if(advertisedDevice.getName().compare("esp4") == 0)
                     {distance4 = advertisedDevice.getRSSI();}
 
-                //Serial.print(advertisedDevice.getName().c_str());
-                //Serial.printf(": %d \n", advertisedDevice.getRSSI());
-                //Serial.printf(": %s \n", advertisedDevice.getManufacturerData().c_str());
+                Serial.print(advertisedDevice.getName().c_str());
+                Serial.printf(": %d \n", advertisedDevice.getRSSI());
+                Serial.printf(": %s \n", advertisedDevice.getManufacturerData().c_str());
 
         }
 
@@ -123,6 +123,8 @@
         distance2 = 0;
         distance3 = 0;
         distance4 = 0;
+
+        pinMode(4, OUTPUT);
     }
 
 
@@ -138,8 +140,17 @@
             {sendloop();
             startMillis = currentMillis;
             }
-        Serial.println(distance1);
-        Serial.println(distance2);
-        Serial.println(distance3);
-        Serial.println(distance4);
+
+
+        
+        if(distance3> 50 || distance1 > 50 || distance2 >50 ||distance4 >50 ||
+        distance3 < (-50) || distance1 < (-50) || distance2 < (-50) ||distance4 < (-50)){
+            digitalWrite(4, 0);
+            
+        }
+        else
+        {digitalWrite(4,1);
+        Serial.println(distance3);}
+            
+   
     }
