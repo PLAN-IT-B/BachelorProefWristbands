@@ -36,13 +36,13 @@
         void tekstInResult(BLEAdvertisedDevice advertisedDevice){
                 
 
-                if(advertisedDevice.getName().c_str() == "esp1")
+                if(advertisedDevice.getName().compare("esp1") == 0)
                     {distance1 = advertisedDevice.getRSSI();}
-                if(advertisedDevice.getName().c_str() == "esp2")
+                if(advertisedDevice.getName().compare("esp2") == 0)
                     {distance2 = advertisedDevice.getRSSI();}
-                if(advertisedDevice.getName().c_str() == "esp3")
+                if(advertisedDevice.getName().compare("esp3") == 0)
                     {distance3 = advertisedDevice.getRSSI();}
-                if(advertisedDevice.getName().c_str() == "esp4")
+                if(advertisedDevice.getName().compare("esp4") == 0)
                     {distance4 = advertisedDevice.getRSSI();}
 
                 //Serial.print(advertisedDevice.getName().c_str());
