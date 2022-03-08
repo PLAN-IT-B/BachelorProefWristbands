@@ -20,7 +20,9 @@
     {
         void onResult(BLEAdvertisedDevice advertisedDevice)
         {
-            if (advertisedDevice.getName().compare("esp2") == 0)
+            if (advertisedDevice.getName().compare("esp2") == 0 || 
+            advertisedDevice.getName().compare("esp3") == 0 ||
+            advertisedDevice.getName().compare("esp4") == 0  )
 
             {
                 Serial.print(advertisedDevice.getName().c_str());
@@ -88,7 +90,7 @@
 
     void loop()
     {
-        if (mode%2 <= 1)
+        if (mode%4 < 3)
             scanloop();
         else
             sendloop();
