@@ -8,29 +8,39 @@
 
 
     BLEScan *pBLEScan;
-    BLECast bleCast("esp1");
+    BLECast bleCast("esp3");
 
     const int scanTimeSeconds = 1;
     uint8_t cnt = 0;
     char data[5];
-    uint8_t mode = 2;
+    uint8_t mode = 1;
 
 
     class AdvertisedDeviceCallbacks : public BLEAdvertisedDeviceCallbacks
     {
-        void onResult(BLEAdvertisedDevice advertisedDevice)
-        {
-            if (advertisedDevice.getName().compare("esp2") == 0 || 
-            advertisedDevice.getName().compare("esp3") == 0 ||
-            advertisedDevice.getName().compare("esp4") == 0  )
 
-            {
-                Serial.print(advertisedDevice.getName().c_str());
+        void tekstInResult(BLEAdvertisedDevice advertisedDevice){
+                            Serial.print(advertisedDevice.getName().c_str());
                 Serial.printf(": %d \n", advertisedDevice.getRSSI());
                 Serial.printf(": %s \n", advertisedDevice.getManufacturerData().c_str());
                 mode ++;
-            }
         }
+
+        void onResult(BLEAdvertisedDevice advertisedDevice)
+        {
+        if (advertisedDevice.getName().compare("esp2") == 0 && mode ==1)
+            {
+                tekstInResult(advertisedDevice);
+            }
+        else if(advertisedDevice.getName().compare("esp3") == 0 && mode ==2)
+        {
+                tekstInResult(advertisedDevice);
+            }
+        else if(advertisedDevice.getName().compare("esp4") == 0 && mode ==3)
+        {
+            tekstInResult(advertisedDevice);
+        }
+    }
     };
 
     void scansetup(){
