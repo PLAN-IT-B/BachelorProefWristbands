@@ -8,16 +8,85 @@
 
 
     BLEScan *pBLEScan;
-    BLECast bleCast("esp2");
+    BLECast bleCast("esp1");
 
     const int scanTimeSeconds = 1;
     uint8_t cnt = 0;
     char data[5];
-    uint8_t mode = 2;
+    uint8_t mode = 0;
 
 
     class AdvertisedDeviceCallbacks : public BLEAdvertisedDeviceCallbacks
     {
+        void onResultOne(BLEAdvertisedDevice advertisedDevice){
+            mode = 0;
+                {
+        if (advertisedDevice.getName().compare("esp2") == 0 && mode%4 ==1)
+            {
+                tekstInResult(advertisedDevice);
+            }
+        else if(advertisedDevice.getName().compare("esp3") == 0 && mode%4 ==2)
+        {
+                tekstInResult(advertisedDevice);
+            }
+        else if(advertisedDevice.getName().compare("esp4") == 0 && mode%4 ==3)
+        {
+            tekstInResult(advertisedDevice);
+        }
+        }
+        }
+
+        void onResulTwo(BLEAdvertisedDevice advertisedDevice){
+            mode = 1;
+                {
+        if (advertisedDevice.getName().compare("esp1") == 0 && mode%4 ==1)
+            {
+                tekstInResult(advertisedDevice);
+            }
+        else if(advertisedDevice.getName().compare("esp3") == 0 && mode%4 ==2)
+        {
+                tekstInResult(advertisedDevice);
+            }
+        else if(advertisedDevice.getName().compare("esp4") == 0 && mode%4 ==3)
+        {
+            tekstInResult(advertisedDevice);
+        }
+    }}
+
+        void onResultThree(BLEAdvertisedDevice advertisedDevice){
+            mode = 2;
+                {
+        if (advertisedDevice.getName().compare("esp1") == 0 && mode%4 ==2)
+            {
+                tekstInResult(advertisedDevice);
+            }
+        else if(advertisedDevice.getName().compare("esp2") == 0 && mode%4 ==3)
+        {
+                tekstInResult(advertisedDevice);
+            }
+        else if(advertisedDevice.getName().compare("esp4") == 0 && mode%4 == 1)
+        {
+            tekstInResult(advertisedDevice);
+        }
+    }}
+
+        void onResultFour(BLEAdvertisedDevice advertisedDevice){
+            mode = 3;
+                {
+        if (advertisedDevice.getName().compare("esp1") == 0 && mode%4 ==3)
+            {
+                tekstInResult(advertisedDevice);
+            }
+        else if(advertisedDevice.getName().compare("esp2") == 0 && mode%4 ==1)
+        {
+                tekstInResult(advertisedDevice);
+            }
+        else if(advertisedDevice.getName().compare("esp3") == 0 && mode%4 ==2)
+        {
+            tekstInResult(advertisedDevice);
+        }
+    }}
+
 
         void tekstInResult(BLEAdvertisedDevice advertisedDevice){
                             Serial.print(advertisedDevice.getName().c_str());
@@ -27,20 +96,11 @@
         }
 
         void onResult(BLEAdvertisedDevice advertisedDevice)
-        {
-        if (advertisedDevice.getName().compare("esp1") == 0 && mode%4 ==1)
-            {
-                tekstInResult(advertisedDevice);
-            }
-        else if(advertisedDevice.getName().compare("esp3") == 0 && mode%4 ==3)
-        {
-                tekstInResult(advertisedDevice);
-            }
-        else if(advertisedDevice.getName().compare("esp4") == 0 && mode%4 ==4)
-        {
-            tekstInResult(advertisedDevice);
+        {onResultOne(advertisedDevice);
+        //onResulTwo(advertisedDevice);
+        //onResultThree(advertisedDevice);
+        //onResultFour(advertisedDevice);
         }
-    }
     };
 
     void scansetup(){
@@ -100,8 +160,8 @@
 
     void loop()
     {
-        if (mode%4 < 3)
-            scanloop();
-        else
+        if (mode%4 ==0 )
             sendloop();
+        else
+            scanloop();
     }
