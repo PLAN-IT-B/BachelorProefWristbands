@@ -8,18 +8,18 @@
 
 
     BLEScan *pBLEScan;
-    BLECast bleCast("esp1");
+    BLECast bleCast("esp4");
 
     const int scanTimeSeconds = 1;
     uint8_t cnt = 0;
     char data[5];
-    uint8_t mode = 0;
+    uint8_t mode;
 
 
     class AdvertisedDeviceCallbacks : public BLEAdvertisedDeviceCallbacks
     {
         void onResultOne(BLEAdvertisedDevice advertisedDevice){
-            mode = 0;
+        
                 {
         if (advertisedDevice.getName().compare("esp2") == 0 && mode%4 ==1)
             {
@@ -37,7 +37,7 @@
         }
 
         void onResulTwo(BLEAdvertisedDevice advertisedDevice){
-            mode = 1;
+            
                 {
         if (advertisedDevice.getName().compare("esp1") == 0 && mode%4 ==1)
             {
@@ -54,7 +54,7 @@
     }}
 
         void onResultThree(BLEAdvertisedDevice advertisedDevice){
-            mode = 2;
+    
                 {
         if (advertisedDevice.getName().compare("esp1") == 0 && mode%4 ==2)
             {
@@ -71,7 +71,7 @@
     }}
 
         void onResultFour(BLEAdvertisedDevice advertisedDevice){
-            mode = 3;
+        
                 {
         if (advertisedDevice.getName().compare("esp1") == 0 && mode%4 ==3)
             {
@@ -96,10 +96,10 @@
         }
 
         void onResult(BLEAdvertisedDevice advertisedDevice)
-        {onResultOne(advertisedDevice);
+        {//onResultOne(advertisedDevice);
         //onResulTwo(advertisedDevice);
         //onResultThree(advertisedDevice);
-        //onResultFour(advertisedDevice);
+        onResultFour(advertisedDevice);
         }
     };
 
@@ -154,6 +154,7 @@
     {
         scansetup();
         sendsetup();
+        mode = 3;
     }
 
 
