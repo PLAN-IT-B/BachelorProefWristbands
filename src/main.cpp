@@ -8,12 +8,12 @@
 
 
     BLEScan *pBLEScan;
-    BLECast bleCast("esp3");
+    BLECast bleCast("esp2");
 
     const int scanTimeSeconds = 1;
     uint8_t cnt = 0;
     char data[5];
-    uint8_t mode = 1;
+    uint8_t mode = 2;
 
 
     class AdvertisedDeviceCallbacks : public BLEAdvertisedDeviceCallbacks
@@ -28,15 +28,15 @@
 
         void onResult(BLEAdvertisedDevice advertisedDevice)
         {
-        if (advertisedDevice.getName().compare("esp2") == 0 && mode ==1)
+        if (advertisedDevice.getName().compare("esp1") == 0 && mode%4 ==1)
             {
                 tekstInResult(advertisedDevice);
             }
-        else if(advertisedDevice.getName().compare("esp3") == 0 && mode ==2)
+        else if(advertisedDevice.getName().compare("esp3") == 0 && mode%4 ==3)
         {
                 tekstInResult(advertisedDevice);
             }
-        else if(advertisedDevice.getName().compare("esp4") == 0 && mode ==3)
+        else if(advertisedDevice.getName().compare("esp4") == 0 && mode%4 ==4)
         {
             tekstInResult(advertisedDevice);
         }
