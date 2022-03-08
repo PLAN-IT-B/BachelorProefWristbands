@@ -15,6 +15,11 @@
     char data[5];
     uint8_t mode;
 
+    unsigned long startMillis;  //some global variables available anywhere in the program
+    unsigned long currentMillis;
+    const unsigned long period = 750;  //the value is a number of milliseconds
+    const byte ledPin = 13;    //using the built in LED
+
 
     class AdvertisedDeviceCallbacks : public BLEAdvertisedDeviceCallbacks
     {
@@ -99,8 +104,19 @@
         {//onResultOne(advertisedDevice);
         //onResulTwo(advertisedDevice);
         //onResultThree(advertisedDevice);
-        onResultFour(advertisedDevice);
+        //onResultFour(advertisedDevice);
+
+        
+                
+        if (advertisedDevice.getName().compare("esp1") == 0 || 
+        advertisedDevice.getName().compare("esp2") == 0 ||
+        advertisedDevice.getName().compare("esp3") == 0 ||
+        advertisedDevice.getName().compare("esp4") == 0)
+            {
+                tekstInResult(advertisedDevice);
+            }
         }
+        
     };
 
     void scansetup(){
@@ -146,23 +162,30 @@
         
         std::string s = bleCast.setManufacturerData(data, sizeof(data));
         Serial.println(s.c_str());
-        delay(1000);
         mode ++;
+        delay(500);
+        
     }
 
     void setup()
     {
         scansetup();
         sendsetup();
-        mode = 3;
+        //mode = 1;
+        startMillis = millis();
     }
 
 
 
     void loop()
     {
-        if (mode%4 ==0 )
-            sendloop();
+        currentMillis = millis();
+
+        if ((currentMillis-startMillis)<=period )
+            {scanloop();
+            }
         else
-            scanloop();
+            {sendloop();
+            startMillis = currentMillis;
+            }
     }
