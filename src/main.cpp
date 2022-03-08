@@ -8,7 +8,10 @@
 
 
     BLEScan *pBLEScan;
+
+//ADAPTABLE
     BLECast bleCast("esp4");
+    const unsigned long period = 750;  //the value is a number of milliseconds
 
     const int scanTimeSeconds = 1;
     uint8_t cnt = 0;
@@ -17,81 +20,13 @@
 
     unsigned long startMillis;  //some global variables available anywhere in the program
     unsigned long currentMillis;
-    const unsigned long period = 750;  //the value is a number of milliseconds
+    
     const byte ledPin = 13;    //using the built in LED
 
 
     class AdvertisedDeviceCallbacks : public BLEAdvertisedDeviceCallbacks
     {
-        void onResultOne(BLEAdvertisedDevice advertisedDevice){
         
-                {
-        if (advertisedDevice.getName().compare("esp2") == 0 && mode%4 ==1)
-            {
-                tekstInResult(advertisedDevice);
-            }
-        else if(advertisedDevice.getName().compare("esp3") == 0 && mode%4 ==2)
-        {
-                tekstInResult(advertisedDevice);
-            }
-        else if(advertisedDevice.getName().compare("esp4") == 0 && mode%4 ==3)
-        {
-            tekstInResult(advertisedDevice);
-        }
-        }
-        }
-
-        void onResulTwo(BLEAdvertisedDevice advertisedDevice){
-            
-                {
-        if (advertisedDevice.getName().compare("esp1") == 0 && mode%4 ==1)
-            {
-                tekstInResult(advertisedDevice);
-            }
-        else if(advertisedDevice.getName().compare("esp3") == 0 && mode%4 ==2)
-        {
-                tekstInResult(advertisedDevice);
-            }
-        else if(advertisedDevice.getName().compare("esp4") == 0 && mode%4 ==3)
-        {
-            tekstInResult(advertisedDevice);
-        }
-    }}
-
-        void onResultThree(BLEAdvertisedDevice advertisedDevice){
-    
-                {
-        if (advertisedDevice.getName().compare("esp1") == 0 && mode%4 ==2)
-            {
-                tekstInResult(advertisedDevice);
-            }
-        else if(advertisedDevice.getName().compare("esp2") == 0 && mode%4 ==3)
-        {
-                tekstInResult(advertisedDevice);
-            }
-        else if(advertisedDevice.getName().compare("esp4") == 0 && mode%4 == 1)
-        {
-            tekstInResult(advertisedDevice);
-        }
-    }}
-
-        void onResultFour(BLEAdvertisedDevice advertisedDevice){
-        
-                {
-        if (advertisedDevice.getName().compare("esp1") == 0 && mode%4 ==3)
-            {
-                tekstInResult(advertisedDevice);
-            }
-        else if(advertisedDevice.getName().compare("esp2") == 0 && mode%4 ==1)
-        {
-                tekstInResult(advertisedDevice);
-            }
-        else if(advertisedDevice.getName().compare("esp3") == 0 && mode%4 ==2)
-        {
-            tekstInResult(advertisedDevice);
-        }
-    }}
-
 
         void tekstInResult(BLEAdvertisedDevice advertisedDevice){
                             Serial.print(advertisedDevice.getName().c_str());
@@ -101,12 +36,7 @@
         }
 
         void onResult(BLEAdvertisedDevice advertisedDevice)
-        {//onResultOne(advertisedDevice);
-        //onResulTwo(advertisedDevice);
-        //onResultThree(advertisedDevice);
-        //onResultFour(advertisedDevice);
-
-        
+        {       
                 
         if (advertisedDevice.getName().compare("esp1") == 0 || 
         advertisedDevice.getName().compare("esp2") == 0 ||
