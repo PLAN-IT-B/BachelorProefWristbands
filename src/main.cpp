@@ -11,7 +11,7 @@
 
 //ADAPTABLE ========================================================================================
 
-    BLECast bleCast("esp2");            //naam ESP
+    BLECast bleCast("esp3");            //naam ESP
     const unsigned long period = 1100;  //the value is a number of milliseconds
 
 //ADADPTABLE =======================================================================================
