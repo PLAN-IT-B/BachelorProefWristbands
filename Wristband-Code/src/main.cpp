@@ -14,8 +14,8 @@
 
 
 //STARTING VARIABLES ========================================================================================
-    int id = 3;
-    std::string espNaam = "esp1";
+    int id = 2;
+    std::string espNaam = "esp4";
 
     /*
     esp1 : ID = 3
@@ -32,9 +32,9 @@
     int codetime =5000;                                     // #ms tussen de knipperende esps
     int codetimelong =60000;                                     // #ms tussen de codes
     const unsigned long switchPeriod = 600000;                //switch voor partnerruil
-    int grenswaardeTeVer  = 50;   
-    int grenswaardeTeDicht = 50; 
-    int irThreshold = 70000;                                  // Treshold voor de hartslagsensor
+    int grenswaardeTeVer  = 60;   
+    int grenswaardeTeDicht = 40; 
+    int irThreshold = 60000;                                  // Treshold voor de hartslagsensor
     int partnerTime = 30;                                      //aantal seconden om je partner te vinden
     int hartslagFoutenMax = 5;
 
@@ -51,12 +51,13 @@
 
 
     
-    int foutenMarge =5;
+    int foutenMarge =10;
     int foutCounter = 0;
     int codetimelongcounter =0;
     int ronde = 0;
     
     bool oneTime = false;
+    bool wristbandEnable;
 
   
 
@@ -310,6 +311,7 @@ void noWristband(){
 
   if(hartslagFoutenTeller>hartslagFoutenMax){
     client.publish("TrappenMaar/buffer","grote fout");
+    client.publish("TrappenMaar/buffer","grote fout");
     Serial.print("Grote Fout gestuurd");
     hartslagFoutenTeller = 0;
   }
@@ -377,9 +379,26 @@ void callback(char *topic, byte *message, unsigned int length)
     resetESP();
   }
 
-  if (messageTemp== "Reset wristbands" ){
+  if (messageTemp== "Reset Wristbands" ){
     resetESP();
   }
+
+  if (messageTemp== "hartslagsensor uit" ){
+    hartratesensorEnable = false;
+  }
+
+  if (messageTemp== "Stop Wristbands"){
+    wristbandEnable = false;
+  }
+
+  if (messageTemp== "hartslagsensor aan" ){
+    hartratesensorEnable = true;
+  }
+
+  if (messageTemp== "Herstart Wristbands"){
+    wristbandEnable = true;
+  }
+  
 
   // Feel free to add more if statements to control more GPIOs with MQTT
     // If a message is received on the topic esp32/output, you check if the message is either "on" or "off".
@@ -454,7 +473,7 @@ void reconnect()
       // Vul hieronder in naar welke directories je gaat luisteren.
       //Voor de communicatie tussen de puzzels, check "Datacommunicatie.docx". (terug tevinden in dezelfde repository) 
       client.subscribe("controlpanel/reset");
-      client.subscribe("Wristbands/reset");
+      client.subscribe("Wristbands");
       client.subscribe("controlpanel/status");
       client.subscribe("trappenmaar/buffer");
     }
@@ -600,6 +619,7 @@ void schuifdoor(){
   switchCurrentMillis = millis();
   if ((switchCurrentMillis - switchStartMillis)>= switchPeriod )
       {ronde++;
+        client.publish("eindpuzzel/timer","partnerruil");
         for(int i=0; i<200;i++){
           setBlack();
           delay(40);
@@ -722,12 +742,13 @@ void sentCode(){
 //=====================================================================================
 void setup()
 { 
-  
   Serial.begin(115200);
   Serial.println("Initializing...");
   switchStartMillis = millis();
   codeStartMillis = millis();
   startMillis = millis();
+
+  wristbandEnable = true;
 
   setupLed();
   setRed();
@@ -781,42 +802,46 @@ void loop(){
     lastMsg = now;
   }
 
-
+  if(wristbandEnable){
 //=================================================================================
-  if (irValue < irThreshold){
-    noWristband();
-  }
-    
-    
-  if (irValue > irThreshold){
-    hartslagFoutenTeller=0;
-    
-    if(checkTeVer()){
-      teVer();
+    if (irValue < irThreshold){
+      noWristband();
+    }
+      
+      
+    if (irValue > irThreshold){
+      hartslagFoutenTeller=0;
+      
+      if(checkTeVer()){
+        teVer();
 
-      if(checkTeDicht()){
+        if(checkTeDicht()){
+          teDicht();
+        }
+      }
+      else if(checkTeDicht()){
         teDicht();
       }
+      else{
+        setGreen();
+      }
     }
-    else if(checkTeDicht()){
-      teDicht();
-    }
-    else{
-      setGreen();
-    }
-  }
-  
-    Serial.println();
+    
+      Serial.println();
+
+    
 
   
-
- 
-/*setBlue();
-delay(1000);
-setRed();
-delay(1000);
-setGreen();
-delay(1000);
-setBlack();
-delay(1000) ; */
+  /*setBlue();
+  delay(1000);
+  setRed();
+  delay(1000);
+  setGreen();
+  delay(1000);
+  setBlack();
+  delay(1000) ; */
+}
+else{
+  setBlack();
+}
 }
