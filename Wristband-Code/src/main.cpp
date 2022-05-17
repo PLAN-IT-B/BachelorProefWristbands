@@ -37,9 +37,8 @@
     int irThreshold = 60000;                                  // Treshold voor de hartslagsensor
     int partnerTime = 30;                                      //aantal seconden om je partner te vinden
     int hartslagFoutenMax = 5;
-
     const unsigned long period = 1000;                        // #ms tussen het scannen van de andere ESP'S
-
+    int foutenMarge =10;
 
 
 
@@ -51,7 +50,7 @@
 
 
     
-    int foutenMarge =10;
+
     int foutCounter = 0;
     int codetimelongcounter =0;
     int ronde = 0;
