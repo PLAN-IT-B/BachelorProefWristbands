@@ -241,7 +241,7 @@ void scansetup(){
 void sendsetup(){
         bleCast.begin();
     }
-
+  
 void scanloop(){
         BLEScanResults foundDevices = pBLEScan->start(scanTimeSeconds, false);
         pBLEScan->clearResults();
